@@ -13,11 +13,11 @@ define(function () {
 
     function updateState(action) {
         console.log("ACTION: " + action.type, action.payload);
-        spotifyState = reducer(action, getState());
+        spotifyState = reducer(getState(), action);
         notifySubscribers(spotifyState);
     }
 
-    function reducer(action, state) {
+    function reducer(state, action) {
         if (action.type === "UPDATE_ALBUMS") {
 
             const albums = action.payload
