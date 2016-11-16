@@ -43,7 +43,7 @@ function reducer(state, action) {
             .albums
             .map(function (album) {
 
-                var playing = (album.id === action.payload) && !album.playing;
+                const playing = (album.id === action.payload) && !album.playing;
                 return Object.assign({}, album, {
                     playing: playing
                 })
