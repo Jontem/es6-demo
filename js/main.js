@@ -1,6 +1,6 @@
 define(['./albums', './store', './audio_player'], function (albums, store, audioPlayer) {
     var searchBtn = document.getElementById("search");
-
+console.log("hello world 15");
     searchBtn.addEventListener("click", function (e) {
         var queryInput = document.getElementById("query");
         e.preventDefault();

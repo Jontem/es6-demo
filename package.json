@@ -1,0 +1,17 @@
+{
+  "name": "es6-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "webpack": "^1.13.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.1.0-beta.11"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
