@@ -24,7 +24,7 @@ function reducer(state, action) {
     if (action.type === "UPDATE_ALBUMS") {
 
         const albums = action.payload
-            .map(function (album) {
+            .map((album) => {
                 return {
                     id: album.id,
                     artist: album.artists[0],
@@ -41,8 +41,7 @@ function reducer(state, action) {
     if (action.type === "SET_PLAYING") {
         const updatedAlbums = getState()
             .albums
-            .map(function (album) {
-
+            .map((album) => {
                 const playing = (album.id === action.payload) && !album.playing;
                 return Object.assign({}, album, {
                     playing: playing
@@ -58,7 +57,5 @@ function reducer(state, action) {
 }
 
 function notifySubscribers() {
-    for (let i = 0; i < subscribers.length; i++) {
-        subscribers[i](spotifyState)
-    }
+    subscribers.forEach((subscriber) => subscriber(spotifyState));
 }

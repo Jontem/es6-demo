@@ -3,7 +3,7 @@ import * as Store from "./store";
 
 export function searchAlbums(query) {
     const url = 'https://api.spotify.com/v1/search?type=album&q=' + query;
-    fetchData(url, function (data) {
+    fetchData(url, (data) => {
         Store.updateState({
             type: "UPDATE_ALBUMS",
             payload: data.albums.items
@@ -14,7 +14,7 @@ export function searchAlbums(query) {
 export function fetchTrack(albumId, callback) {
     const url = "https://api.spotify.com/v1/albums/" + albumId;
 
-    fetchData(url, function (data) {
+    fetchData(url, (data) => {
         callback(data.tracks.items[0].preview_url);
     });
 }

@@ -1,7 +1,7 @@
 export function fetchData(url, callback) {
     const httpRequest = new XMLHttpRequest();
 
-    httpRequest.onreadystatechange = function () {
+    httpRequest.onreadystatechange = () => {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
                 const data = JSON.parse(httpRequest.responseText);
