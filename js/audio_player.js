@@ -1,20 +1,13 @@
-define(function () {
-   var audioPlayer;
+let audioPlayer;
 
-    function playSong(songUrl) {
-        if(audioPlayer) {
-            pauseSong();
-        }
-        audioPlayer = new Audio(songUrl);
-        audioPlayer.play();
+export function playSong(songUrl) {
+    if (audioPlayer) {
+        pauseSong();
     }
+    audioPlayer = new Audio(songUrl);
+    audioPlayer.play();
+}
 
-    function pauseSong() {
-        audioPlayer.pause();
-    }
-
-    return {
-        playSong: playSong,
-        pauseSong: pauseSong,
-    };
-});
+export function pauseSong() {
+    audioPlayer.pause();
+}

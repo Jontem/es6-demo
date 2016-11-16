@@ -1,74 +1,64 @@
-define(function () {
-    var initialState = {
-        albums: []
-    };
+const initialState = {
+    albums: []
+};
 
-    var spotifyState = initialState;
+let spotifyState = initialState;
 
-    var subscribers = [];
+const subscribers = [];
 
-    function getState() {
-        return spotifyState;
-    }
+export function getState() {
+    return spotifyState;
+}
 
-    function updateState(action) {
-        console.log("ACTION: " + action.type, action.payload);
-        spotifyState = reducer(getState(), action);
-        notifySubscribers(spotifyState);
-    }
+export function updateState(action) {
+    console.log("ACTION: " + action.type, action.payload);
+    spotifyState = reducer(getState(), action);
+    notifySubscribers(spotifyState);
+}
 
-    function reducer(state, action) {
-        if (action.type === "UPDATE_ALBUMS") {
+export function subscribe(subscriber) {
+    subscribers.push(subscriber);
+}
 
-            const albums = action.payload
-                .map(function (album) {
-                    return {
-                        id: album.id,
-                        artist: album.artists[0],
-                        image: album.images[0],
-                        playing: false
-                    }
-                });
+function reducer(state, action) {
+    if (action.type === "UPDATE_ALBUMS") {
 
-            return Object.assign({}, getState(), {
-                albums: albums
+        const albums = action.payload
+            .map(function (album) {
+                return {
+                    id: album.id,
+                    artist: album.artists[0],
+                    image: album.images[0],
+                    playing: false
+                }
             });
-        }
 
-        if (action.type === "SET_PLAYING") {
-            var updatedAlbums = getState()
-                .albums
-                .map(function (album) {
+        return Object.assign({}, getState(), {
+            albums: albums
+        });
+    }
 
-                    var playing = (album.id === action.payload) && !album.playing;
-                    return Object.assign({}, album, {
-                        playing: playing
-                    })
-                });
+    if (action.type === "SET_PLAYING") {
+        const updatedAlbums = getState()
+            .albums
+            .map(function (album) {
 
-            return Object.assign({}, getState(), {
-                albums: updatedAlbums
+                var playing = (album.id === action.payload) && !album.playing;
+                return Object.assign({}, album, {
+                    playing: playing
+                })
             });
-        }
 
-        return state;
+        return Object.assign({}, getState(), {
+            albums: updatedAlbums
+        });
     }
 
-    function notifySubscribers() {
-        for (var i = 0; i < subscribers.length; i++) {
-            subscribers[i](spotifyState)
-        }
-    }
+    return state;
+}
 
-    function subscribe(subscriber) {
-        subscribers.push(subscriber);
+function notifySubscribers() {
+    for (let i = 0; i < subscribers.length; i++) {
+        subscribers[i](spotifyState)
     }
-
-    window.getState = getState;
-
-    return {
-        updateState: updateState,
-        getState: getState,
-        subscribe: subscribe
-    }
-});
+}
