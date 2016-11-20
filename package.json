@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "webpack": "^1.13.3"
   },
   "devDependencies": {
