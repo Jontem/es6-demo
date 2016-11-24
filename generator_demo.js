@@ -1,29 +1,36 @@
 require("isomorphic-fetch");
 
+function runGen(generator) {
+    const next = (iterator, data) => {
 
-function fetchArtist(url) {
-    fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((json) => {
-            return generatorObject.next(json)
-        });
+        const {value, done} = iterator.next(data);
+
+        if (!done) {
+            value.then((data) => next(iterator, data));
+        }
+    };
+
+    const genObj = generator();
+    next(genObj);
 }
 
-function* getArtists(artists) {
-    for(let artistId of artists) {
-        const data = yield fetchArtist(`https://api.spotify.com/v1/artists/${artistId}`);
-        console.log("Artist name: " + data.name);
-    }
+
+function fetchJson(url) {
+    return fetch(url)
+        .then((response) => {
+            return response.json()
+        });
 }
 
 const artists = [
     "0OdUWJ0sBjDrqHygGUXeCF",
     "2ye2Wgw4gimLv2eAKyk1NB",
     "04gDigrS5kc9YWfZHwBETP"
-
 ];
 
-const generatorObject = getArtists(artists);
-generatorObject.next();
+runGen(function*() {
+    for (let artistId of artists) {
+        const data = yield fetchJson(`https://api.spotify.com/v1/artists/${artistId}`);
+        console.log("Artist name: " + data.name);
+    }
+});
