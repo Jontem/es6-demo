@@ -2,19 +2,15 @@ require("isomorphic-fetch");
 
 
 function fetchArtist(url) {
-    fetch(url)
+    return fetch(url)
         .then((response) => {
-            return response.json()
-        })
-        .then((json) => {
-            return generatorObject.next(json)
+            return response.json();
         });
 }
 
 function* getArtists(artists) {
     for(let artistId of artists) {
-        const data = yield fetchArtist(`https://api.spotify.com/v1/artists/${artistId}`);
-        console.log("Artist name: " + data.name);
+        yield fetchArtist(`https://api.spotify.com/v1/artists/${artistId}`);
     }
 }
 
@@ -25,5 +21,13 @@ const artists = [
 
 ];
 
-const generatorObject = getArtists(artists);
-generatorObject.next();
+// Not allowed to await in the global scope.
+(async function () {
+    const generatorObject = getArtists(artists);
+    for (const dataPromise of generatorObject) {
+
+        const data = await dataPromise;
+
+        console.log("Artist name: " + data.name);
+    }
+})()
